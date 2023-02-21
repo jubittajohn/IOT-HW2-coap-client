@@ -5,7 +5,7 @@ import logging
 import statistics
 import time
 
-HOST_NAME = "localhost"
+HOST_NAME = "192.168.0.19"
 logging.basicConfig(level=logging.INFO)
 
 def createFolderStructure():
@@ -55,7 +55,8 @@ async def download_file():
     context = await aiocoap.Context.create_client_context()
     
     dataTrans = ""
-    filename_count = {'100B':10000, '10KB':1000, '1MB':100, '10MB':10}
+    filename_count = {'100B':10000, '10KB':1000, '1MB':100} 
+    #filename_count = {'10MB':10}
     for filename, timesSend in filename_count.items():
         print("\n File Size: ",filename, " \n")
         throughput = [0] * timesSend
