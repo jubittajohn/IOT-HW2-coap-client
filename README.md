@@ -20,6 +20,7 @@ The file IOT_HW2-coap-client has the following data:
     line 59: ```filename_count = {'10MB':10}```
 
     line 58 : ```filename_count = {'100B':10000, '10KB':1000, '1MB':100} ```
+- 10 MB is transferred seperately to reduce the congestion created in the network.
 
 ## What happens in CoAP client
 - At first folder structures will be created to store the files received from the server. The folder DataRecieved is created with 4 subfolders inside it named 100B, 10KB, 1MB and 10MB to store the respective size folders.
