@@ -20,6 +20,19 @@ def createFolderStructure():
             os.mkdir(subfolder_name)
 
 def calculations(timesSend, throughput, totalDataTrans_by_fileSize):
+
+    #delete the element with 0 value coz file transer didn't happen successfully
+    delCount = 0
+    for i, x in enumerate(throughput):
+        if x == 0:
+            throughput.pop(i)
+            delCount += 1
+
+    for i, x in enumerate(totalDataTrans_by_fileSize):
+        if x == 0:
+            totalDataTrans_by_fileSize.pop(i)
+    timesSend = timesSend - delCount        
+
     #average throughput calculation
     sumTime = 0
     for x in throughput:
@@ -57,7 +70,6 @@ async def download_file():
             with open(filepath1, 'wb') as f:
                 try:
                     response = await context.request(request).response
-                    #dataTrans = sys.getsizeof(response + sys.getsizeof(response.headers))
                 except Exception as e:
                     print('Failed to fetch resource:')
                     print(e)
@@ -65,12 +77,13 @@ async def download_file():
                     f.write(response.payload)
             end = time.time()
             filesize = os.path.getsize(filepath1)
-            throughput[count-1] = (8 * filesize) / ((end - start)*1000)
-            dataTrans = 4 + filesize
-            totalDataTrans_by_fileSize[count-1] = dataTrans/filesize
+            if filesize!=0:
+                throughput[count-1] = (8 * filesize) / ((end - start)*1000)
+                dataTrans = 4 + filesize
+                totalDataTrans_by_fileSize[count-1] = dataTrans/filesize              
             count += 1
         calculations(timesSend, throughput, totalDataTrans_by_fileSize)
-    #await context.shutdown()
+    await context.shutdown()
 
 if __name__ == "__main__":
 
